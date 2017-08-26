@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba reCaptcha Invisible</title>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body>
+<button
+        class="g-recaptcha"
+        data-sitekey="6LcL_C0UAAAAAHY-vwBfGZL85BmSoljRSMdnCvjH"
+        data-callback="submitFormFn">
+    Enviar
+</button>
+
+
+<script>
+    function submitFormFn(data){
+        var captchaResponse = JSON.stringify({
+            "response": data
+        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                alert(this.responseText);
+            }
+        });
+
+        xhr.open("POST", "http://localhost:3000/verify");
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader("cache-control", "no-cache");
+
+        xhr.send(captchaResponse);
+    }
+</script>
+</body>
+</html>
